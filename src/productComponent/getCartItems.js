@@ -171,10 +171,10 @@ const EmptyTheCart = async()=>{
                     <div>ProductName : {ele.cartItems.productName}</div>
                     <div>Category : {ele.cartItems.categoryName}</div>
                     <div>Price :{ele.cartItems.price}</div>
-                    <div>Quantity : <button onClick={()=>decrease(ele._id)}>-</button>{quantity[ele._id]}<button onClick={()=>increase(ele._id,ele.cartItems.quantity)}>+</button></div>
+                    <div>Quantity : <button className="dec-qty-btn" onClick={()=>decrease(ele._id)}>-</button>{quantity[ele._id]}<button className="inc-qty-btn" onClick={()=>increase(ele._id,ele.cartItems.quantity)}>+</button></div>
                     </div>
                     <div>
-                    <button onClick={()=>removeItem(ele._id)}>Remove from cart</button>
+                    <button onClick={()=>removeItem(ele._id)} className="remove-cart-btn">Remove from cart</button>
                     <div>Amount : {ele.cartItems.price * quantity[ele._id]}</div>
                     
                     </div>
@@ -183,11 +183,11 @@ const EmptyTheCart = async()=>{
                 </div>
               )
            })}
-           
+           <div className="cart-items" >
            <div>Total Amount : Rs.{totalAmount}</div>
 
            <Button variant="contained" onClick={makeOrder}>Process Order</Button>
-           
+           </div>
         </div>
      )
  }

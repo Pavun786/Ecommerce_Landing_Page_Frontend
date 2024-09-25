@@ -62,6 +62,7 @@ import { Link } from 'react-router-dom';
                 localStorage.setItem("token",res.token)
                 localStorage.setItem("userId",res.data._id)
                 localStorage.setItem("role",res.data.role)
+                localStorage.setItem("userName",res.data.userName)
                 navigate("/getAll")
 
               }else{

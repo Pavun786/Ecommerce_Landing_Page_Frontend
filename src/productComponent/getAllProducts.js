@@ -11,12 +11,57 @@ import { API } from "../Global";
  function GetAllProducts(){
 
   const [data,setData] = useState("")
+  const [checked, setChecked] = useState([]);
   const userId = localStorage.getItem("userId")
   const navigate = useNavigate()
 
-  useEffect(()=>{
+  let category = ["electronics","cloths","toys","Others"]
+
+
+  // useEffect(()=>{
+  //     getDatas()
+  // },[])
+
+  useEffect(() => {
+    if (checked.length){
+      filterProperty();
+    }else{
       getDatas()
-  },[])
+    }
+  }, [checked]);
+
+
+  const handleFilter = (value) => {
+    let all = [...checked];
+    if (!all.includes(value)) {
+      all.push(value);
+    } else {
+      all = all.filter((c) => c !== value);
+    }
+    setChecked(all);
+  };
+
+
+  const filterProperty = async () => {
+   
+    const value = await fetch(`${API}/product/product-filter`,{
+      method : "POST",
+      headers:{
+       "Content-Type": "application/json",
+      //  "Auth": localStorage.getItem("token")
+      },
+      body : JSON.stringify({checked})
+    })
+
+    const res = await value.json()
+
+    if(value.status == 200){
+        setData(res.datas)
+    }
+   };
+
+  console.log(data)
+
 
   const getDatas = async()=>{
 
@@ -49,12 +94,35 @@ import { API } from "../Global";
   }
 
      return(
-        <div className="products-container">
+      <>
+       
+        <div className='card-container'>
+            
+          <div className='sub1'>
+            
+            <div className='location-filter'>
+              <h5>Category:</h5>
+            {category.map((ele)=>{
+               return(
+                <div className='list'>
+                <input
+                type='checkbox'
+                value={ele}
+                onChange={(e)=> handleFilter(e.target.value)}
+                />
+                <label>{ele}</label>
+                </div>
+               )
+            })}
+            </div>
+            </div>
+          
+        <div className="products-container sub2" >
            { data && data.map((ele,index)=>{
               return(
-    <Card sx={{ maxWidth: 360 }}>
+    <Card sx={{ maxWidth: 300 }} className="card" >
       <CardMedia
-        sx={{ height: 280 }}
+        sx={{ height: 200 }}
         image={ele.productImage}
         title="green iguana"
       />
@@ -83,6 +151,8 @@ import { API } from "../Global";
               )
            })}
         </div>
+        </div> 
+        </>
      )
  }
 

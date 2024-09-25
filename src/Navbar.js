@@ -23,7 +23,7 @@ function Navbar ({children}){
 
   const [show,setShow] = useState(true)
   const token = localStorage.getItem("token")
-  const user = localStorage.getItem("user")
+  const user = localStorage.getItem("userName")
   const navigate = useNavigate()
 
   
